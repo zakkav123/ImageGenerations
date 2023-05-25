@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            font-family: "PingFang SC", "Microsoft Yahei", sans-serif;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url("https://starry-lixu.oss-cn-hangzhou.aliyuncs.com/202209141908599.jpg") fixed no-repeat;
+            background-size: cover;
+        }
+
+        .login-form {
+            width: 240px;
+            height: 320px;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            z-index: 100;
+            background: inherit;
+            border-radius: 18px;
+            overflow: hidden;
+            /* 隐藏多余的模糊效果*/
+        }
+
+        .login-form h2 {
+            font-size: 18px;
+            font-weight: 400;
+            color: #3d5245;
+        }
+
+        .login-form input,
+        .login-form button {
+            margin: 6px 0;
+            height: 36px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            padding: 0 14px;
+            color: #3d5245;
+        }
+    </style>
+</head>
+
+<body>
+
+    <body>
+        <div class="container">
+            <form action="#" class="login-form" id="myForm">
+                <h2>图片生成</h2>
+                <input type="text" id="title" placeholder="标题:">
+                <input type="text" id="price" placeholder="价格:">
+                <input type="file" id="image" placeholder="上传图片:">
+                <input type="text" id="url" placeholder="网址:">
+                <input type="text" id="description" placeholder="描述:">
+                <button type="button" onclick="generateImage()">生成图片</button>
+            </form>
+        </div>
+        </div>
+        <script>
+            function generateImage() {
+                var title = document.getElementById("title").value;
+                var price = document.getElementById("price").value;
+                var image = document.getElementById("image").files[0];
+                var url = document.getElementById("url").value;
+                var description = document.getElementById("description").value;
+
+                if (!title || !price || !image) {
+                    alert("请填写必要信息：标题、价格和图片");
+                    return;
+                }
+
+                var reader = new FileReader();
+                reader.readAsDataURL(image);
+                reader.onload = function () {
+                    var canvas = document.createElement("canvas");
+                    canvas.width = 400;
+                    canvas.height = 800;
+                    var ctx = canvas.getContext("2d");
+                    ctx.fillStyle = '#fff';
+                    var img = new Image();
+                    img.src = reader.result;
+                    img.onload = function () {
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height * 0.6);
+
+                        ctx.fillStyle = '#000';
+                        ctx.font = "bold 24px Arial";
+                        wrapText(ctx, title, 20, canvas.height * 0.7, canvas.width - 40, 30);
+                        ctx.font = "24px Arial";
+                        wrapText(ctx, price, 20, canvas.height * 0.8, canvas.width - 40, 30);
+                        wrapText(ctx, url, 20, canvas.height * 0.85, canvas.width - 40, 30);
+                        wrapText(ctx, description, 20, canvas.height * 0.9, canvas.width - 40, 30);
+
+                        var link = document.createElement("a");
+                        link.download = "product.png";
+                        link.href = canvas.toDataURL("image/png");
+                        link.click();
+                    }
+                }
+            }
+
+            function wrapText(context, text, x, y, maxWidth, lineHeight) {
+                var words = text.split(' ');
+                var line = '';
+
+                for (var n = 0; n < words.length; n++) {
+                    var testLine = line + words[n] + ' ';
+                    var metrics = context.measureText(testLine);
+                    var testWidth = metrics.width;
+                    if (testWidth > maxWidth && n > 0) {
+                        context.fillText(line, x, y);
+                        line = words[n] + ' ';
+                        y += lineHeight;
+                    } else {
+                        line = testLine;
+                    }
+                }
+                context.fillText(line, x, y);
+            }
+        </script>
+    </body>
+
+</body>
+
+</html>
