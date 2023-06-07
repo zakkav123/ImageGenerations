@@ -99,12 +99,12 @@
                     img.onload = function () {
                         ctx.drawImage(img, 0, 300, canvas.width, canvas.height * 0.5);
                         ctx.fillStyle = '#000';
-                        ctx.font = "bold 24px Arial";
-                        wrapText(ctx, title, 200, canvas.height * 0.1, canvas.width , 30);
-                        ctx.font = "24px Arial";
-                        wrapText(ctx, price, 200, canvas.height * 0.3, canvas.width , 30);
-                        wrapText(ctx, url, 200, canvas.height * 0.8, canvas.width , 30);
-                        wrapText(ctx, description, 200, canvas.height * 0.9, canvas.width , 30);
+                        ctx.font = 'italic bold 30px Times New Roman';
+                        wrapText(ctx, title, 200, canvas.height * 0.1, canvas.width, 20);
+                        ctx.font = "24px STHeiTi";
+                        wrapText(ctx, price, 200, canvas.height * 0.2, canvas.width, 20);
+                        wrapText(ctx, url, 200, canvas.height * 0.3, canvas.width, 20);
+                        wrapText(ctx, description, 200, canvas.height * 0.9, canvas.width, 20);
                         var link = document.createElement("a");
                         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                         for (let i = 0; i < imageData.data.length; i += 4) {// 当该像素是透明的，则设置成白色
