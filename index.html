@@ -80,7 +80,7 @@
                 var url = document.getElementById("url").value;
                 var description = document.getElementById("description").value;
 
-                if (!title || !price || !image) {
+                if (!title || !image) {
                     alert("请填写必要信息：标题、价格和图片");
                     return;
                 }
@@ -99,12 +99,27 @@
                     img.onload = function () {
                         ctx.drawImage(img, 0, 300, canvas.width, canvas.height * 0.5);
                         ctx.fillStyle = '#000';
-                        ctx.font = 'italic bold 30px Times New Roman';
-                        wrapText(ctx, title, 200, canvas.height * 0.1, canvas.width, 20);
+                        ctx.font = 'italic bold 30px YouYuan';
+                        if (!price) {
+                            price = '100 ~ 300 ( 一晚 )'
+                        } else {
+                            price = `${price} ( 一晚 )`
+                        }
+                        if (!url) {
+                            url = '官方唯一网址: 571gu.com'
+                        } else {
+                            url = `官方唯一网址: ${url}`
+                        }
+                        if (!description) {
+                            description = '小哥哥~如果遇扫码打不开  请用网址到浏览器打开哦'
+                        }
+                        const titles = title + '同城约'
+                        console.log(title);
+                        wrapText(ctx, titles, 200, canvas.height * 0.1, canvas.width, 20);
                         ctx.font = "24px STHeiTi";
                         wrapText(ctx, price, 200, canvas.height * 0.2, canvas.width, 20);
                         wrapText(ctx, url, 200, canvas.height * 0.3, canvas.width, 20);
-                        wrapText(ctx, description, 200, canvas.height * 0.9, canvas.width, 20);
+                        wrapText(ctx, description, 200, canvas.height * 0.9, canvas.width, 30);
                         var link = document.createElement("a");
                         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                         for (let i = 0; i < imageData.data.length; i += 4) {// 当该像素是透明的，则设置成白色
